@@ -9,7 +9,8 @@ class BlogIndex extends Component
 {
     public function render()
     {
-        $posts = Post::orderBy('published_at', 'desc')->get();
-        return view('livewire.blog-index', compact('posts'));
+        $posts = Post::latest()->get();
+        return view('livewire.blog-index', compact('posts'))
+            ->layout('components.layout');
     }
 }
