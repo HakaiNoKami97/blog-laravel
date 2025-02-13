@@ -19,6 +19,15 @@
             @endforeach
         </div>
 
+        <!-- Formulario de suscripción -->
+        <div class="mb-6 flex justify-center">
+            @livewire('subscription-form')
+        </div>
+
+        <div class="mb-6 flex justify-center">
+            @livewire('cancel-subscription')
+        </div>
+
         @if($posts->isEmpty())
             <p class="text-gray-600 text-center mt-6 text-lg">📭 No hay publicaciones en esta fecha.</p>
         @endif
