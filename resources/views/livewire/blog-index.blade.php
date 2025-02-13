@@ -1,17 +1,26 @@
 <x-layout>
-    <div class="container mx-auto p-4">
-        <h1 class="text-2xl font-bold mb-4 text-center">Publicaciones del Blog</h1>
+    <div class="container mx-auto p-6">
+        <h1 class="text-3xl font-bold mb-6 text-center text-blue-700">📚 Publicaciones del Blog</h1>
 
-        @foreach($posts as $post)
-            <div class="bg-white p-4 shadow rounded mb-4 border border-gray-200">
-                <h2 class="text-xl font-semibold">{{ $post->title }}</h2>
-                <p class="text-gray-700">{{ $post->description }}</p>
-                <small class="text-gray-500">📅 Publicado el: {{ \Carbon\Carbon::parse($post->published_at)->format('d/m/Y') }}</small>
-            </div>
-        @endforeach
+        <!-- Campo de búsqueda por fecha -->
+        <div class="mb-6 flex justify-center">
+            <input type="date" wire:model="searchDate"
+                class="border border-gray-400 p-3 rounded-lg shadow-md w-64 text-gray-700">
+        </div>
+
+        <!-- Lista de publicaciones -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            @foreach($posts as $post)
+                <div class="bg-white p-6 shadow-lg rounded-lg border border-gray-300">
+                    <h2 class="text-xl font-semibold text-gray-800">{{ $post->title }}</h2>
+                    <p class="text-gray-700 mt-2">{{ $post->description }}</p>
+                    <small class="text-gray-500 block mt-4">📅 Publicado el: {{ \Carbon\Carbon::parse($post->published_at)->format('d/m/Y') }}</small>
+                </div>
+            @endforeach
+        </div>
 
         @if($posts->isEmpty())
-            <p class="text-gray-600 text-center">📭 No hay publicaciones aún.</p>
+            <p class="text-gray-600 text-center mt-6 text-lg">📭 No hay publicaciones en esta fecha.</p>
         @endif
     </div>
 </x-layout>
