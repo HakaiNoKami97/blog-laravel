@@ -9,7 +9,10 @@ class BlogIndex extends Component
 {
     public function render()
     {
-        $posts = Post::latest()->get();
+        $posts = Post::select('title', 'description', 'published_at')
+                     ->latest()
+                     ->get();
+                     
         return view('livewire.blog-index', compact('posts'))
             ->layout('components.layout');
     }
