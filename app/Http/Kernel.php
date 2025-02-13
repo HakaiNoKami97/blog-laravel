@@ -55,5 +55,6 @@ class Kernel extends HttpKernel
         
         // Middleware de administrador
         'admin' => \App\Http\Middleware\AdminMiddleware::class,
+        'active' => \App\Http\Middleware\CheckActiveUser::class,
     ];
 }
