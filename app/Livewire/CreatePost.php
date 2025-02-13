@@ -29,10 +29,9 @@ class CreatePost extends Component
 
         session()->flash('success', 'Publicación creada exitosamente.');
 
-        // Limpiar los campos
         $this->reset(['title', 'description']);
 
-        // Emitir evento para actualizar la lista de publicaciones
+        // 🔥 Emitir evento para actualizar la lista de publicaciones en tiempo real
         $this->dispatch('postCreated');
     }
 

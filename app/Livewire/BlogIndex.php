@@ -4,15 +4,16 @@ namespace App\Livewire;
 
 use Livewire\Component;
 use App\Models\Post;
-use Carbon\Carbon;
 
 class BlogIndex extends Component
 {
-    public $searchDate = ''; // Variable para el filtro de fecha
+    public $searchDate = '';
+
+    protected $listeners = ['postCreated' => 'render']; // 🎯 Escuchar evento y recargar publicaciones
 
     public function render()
     {
-        $query = Post::query()->orderBy('published_at', 'desc');
+        $query = Post::latest();
 
         if (!empty($this->searchDate)) {
             $query->whereDate('published_at', $this->searchDate);
