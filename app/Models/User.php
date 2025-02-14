@@ -12,45 +12,48 @@ class User extends Authenticatable
 {
     use HasFactory, Notifiable;
 
+    // 🔹 Define los atributos que pueden ser asignados masivamente en el modelo
     protected $fillable = [
-        'name',
-        'email',
-        'password',
-        'date_of_birth',
-        'is_active',
+        'name',          // Nombre del usuario
+        'email',         // Correo electrónico del usuario
+        'password',      // Contraseña del usuario (se almacenará de forma encriptada)
+        'date_of_birth', // Fecha de nacimiento del usuario
+        'is_active',     // Estado de activación del usuario (activo/inactivo)
     ];
 
+    // 🔹 Define los atributos que deben permanecer ocultos al serializar el modelo (por ejemplo, al devolver JSON)
     protected $hidden = [
-        'password',
-        'remember_token',
+        'password',        // Oculta la contraseña para evitar que se exponga en respuestas JSON
+        'remember_token',  // Oculta el token de "recuérdame" usado en autenticación
     ];
 
+    // 🔹 Convierte automáticamente ciertos atributos a tipos específicos
     protected $casts = [
-        'is_active' => 'boolean',
-        'date_of_birth' => 'date',
+        'is_active' => 'boolean',  // Convierte 'is_active' en un valor booleano (true o false)
+        'date_of_birth' => 'date', // Convierte 'date_of_birth' en un objeto de tipo fecha
     ];
 
-    // Accesor para calcular la edad
+    // 🔹 Accesor para calcular la edad del usuario basado en su fecha de nacimiento
     public function getAgeAttribute()
     {
-        return $this->date_of_birth ? $this->date_of_birth->age : null;
+        return $this->date_of_birth ? $this->date_of_birth->age : null; // Devuelve la edad en años o null si no hay fecha
     }
 
-    // Mutador para asegurar que la fecha se almacene correctamente
+    // 🔹 Mutador para asegurar que la fecha de nacimiento se almacene correctamente en formato 'Y-m-d'
     public function setDateOfBirthAttribute($value)
     {
-        $this->attributes['date_of_birth'] = Carbon::parse($value)->format('Y-m-d');
+        $this->attributes['date_of_birth'] = Carbon::parse($value)->format('Y-m-d'); // Convierte cualquier formato de fecha a 'YYYY-MM-DD'
     }
 
-    // Scope para filtrar solo usuarios activos
+    // 🔹 Scope para filtrar solo los usuarios activos
     public function scopeActive($query)
     {
-        return $query->where('is_active', true);
+        return $query->where('is_active', true); // Retorna solo los usuarios que están activos
     }
 
-    // Método para verificar si un usuario es mayor de edad
+    // 🔹 Método para verificar si el usuario es mayor de edad (18 años o más)
     public function isAdult()
     {
-        return $this->age >= 18;
+        return $this->age >= 18; // Devuelve true si el usuario es mayor de edad, false si no lo es
     }
 }
